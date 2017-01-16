@@ -17,11 +17,14 @@ namespace Running.Editor
 			{
 				foreach (var platform in platforms)
 				{
+					var prefabParent = PrefabUtility.GetPrefabParent(platform.gameObject);
 					var transform = platform.transform;
 					var xElement = new XElement("Platform");
 					xElement.SetAttributeValue("Name", transform.name);
-					xElement.SetAttributeValue("Start", platform.Start.transform.position);
-					xElement.SetAttributeValue("End", platform.End.transform.position);
+					xElement.SetAttributeValue("Prefab", prefabParent.name);
+					xElement.SetAttributeValue("Rotation", transform.localRotation.ToFormattedString());
+					xElement.SetAttributeValue("Start", platform.Start.transform.localPosition.ToFormattedString());
+					xElement.SetAttributeValue("End", platform.End.transform.localPosition.ToFormattedString());
 
 					if (transform.childCount > 0)
 					{
