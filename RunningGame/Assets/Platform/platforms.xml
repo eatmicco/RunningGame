@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Platforms>
+  <Platform Name="PlatformSample" Position="0, 0, 0" Rotation="0, 0, 0">
+    <Element Name="Cube" Position="-8.1, 0, -1.5" Rotation="0, 0, 0" Type="Obstacle" />
+    <Element Name="Cube" Position="-5.82, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
+    <Element Name="Cube" Position="-3.97, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
+  </Platform>
+</Platforms>
