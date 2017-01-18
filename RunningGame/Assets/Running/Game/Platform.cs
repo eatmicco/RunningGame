@@ -9,7 +9,7 @@ namespace Running.Game
 		
 		private void Update()
 		{
-			
+			transform.Translate(Vector3.back * Settings.Instance.Speed * Time.deltaTime, Space.World);
 		}
 	}
 }

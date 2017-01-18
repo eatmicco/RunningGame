@@ -7,10 +7,10 @@ namespace Running.Game
 	{
 		public const int LaneCount = 3;
 		public int MaxPoolCount = 5;
-
-		private static Settings _instance;
-
 		public float LaneWidth;
+		public float Speed;
+		
+		private static Settings _instance;
 
 		public static Settings Instance
 		{
