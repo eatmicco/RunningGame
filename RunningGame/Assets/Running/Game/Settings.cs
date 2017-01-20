@@ -6,9 +6,13 @@ namespace Running.Game
 	public class Settings : MonoBehaviour
 	{
 		public const int LaneCount = 3;
-		public int MaxPoolCount = 5;
+		public int MaxPoolCount = 10;
 		public float LaneWidth;
 		public float Speed;
+		public float HideDepth = -5;
+		public Vector3 CameraPosition;
+		public Vector3 CameraRotation;
+		public Vector3 PlayerPosition;
 		
 		private static Settings _instance;
 

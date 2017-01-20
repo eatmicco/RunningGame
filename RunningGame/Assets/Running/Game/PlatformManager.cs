@@ -15,10 +15,12 @@ namespace Running.Game
 		private readonly Dictionary<string, PlatformPool> _platformPools = new Dictionary<string, PlatformPool>();
 		private readonly List<int> _latestPoolIndexes = new List<int>();
 		private GameObject _poolGameObject;
+		private System.Action _onPlatformHidden;
 
-		public void Initialize()
+		public void Initialize(System.Action onPlatformHidden)
 		{
 			_poolGameObject = new GameObject("Pools");
+			_onPlatformHidden = onPlatformHidden;
 		}
 
 		public void Load(string xmlString)
@@ -35,6 +37,7 @@ namespace Running.Game
 				gameObject.name = name;
 				gameObject.transform.parent = _poolGameObject.transform;
 				var platform = gameObject.GetComponent<Platform>();
+				platform.OnHidden = _onPlatformHidden;
 
 				var hasStart = platformElement.Attribute("Start") != null;
 				var hasEnd = platformElement.Attribute("End") != null;
@@ -120,6 +123,8 @@ namespace Running.Game
 			{
 				var duplicate = Object.Instantiate(gameObject);
 				duplicate.name = name;
+				var platform = duplicate.GetComponent<Platform>();
+				platform.OnHidden = _onPlatformHidden;
 				duplicate.transform.parent = _poolGameObject.transform;
 				_platformPools[name].Pool.Add(duplicate);
 				duplicate.SetActive(false);
@@ -148,21 +153,21 @@ namespace Running.Game
 
 		public void ConnectPlatformToPoint(GameObject platformGameObject, Vector3 point)
 		{
-			var startPosition = GetStartPosition(platformGameObject);
+			var startPosition = GetStartTransform(platformGameObject).position;
 			var diff = point - startPosition;
 			platformGameObject.transform.Translate(diff, Space.World);
 		}
 
-		public Vector3 GetStartPosition(GameObject platformGameObject)
+		public Transform GetStartTransform(GameObject platformGameObject)
 		{
 			var platform = platformGameObject.GetComponent<Platform>();
-			return platform.Start.transform.position;
+			return platform.Start.transform;
 		}
 
-		public Vector3 GetEndPosition(GameObject platformGameObject)
+		public Transform GetEndTransform(GameObject platformGameObject)
 		{
 			var platform = platformGameObject.GetComponent<Platform>();
-			return platform.End.transform.position;
+			return platform.End.transform;
 		}
 	}	
 }
