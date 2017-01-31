@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Running.Game
 {
@@ -8,8 +7,12 @@ namespace Running.Game
 		public const int LaneCount = 3;
 		public int MaxPoolCount = 10;
 		public float LaneWidth;
-		public float Speed;
+		public float PlatformSpeed;
 		public float HideDepth = -5;
+		public float SwipeDistance = 50;
+		public float PlayerSpeed = 0.1f;
+		public float JumpingVelocity = 10;
+		public float Gravity = 1;
 		public Vector3 CameraPosition;
 		public Vector3 CameraRotation;
 		public Vector3 PlayerPosition;

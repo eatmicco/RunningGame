@@ -20,7 +20,6 @@ namespace Running.Game
 			Bottom
 		}
 
-		private const float SwipeDistance = 50.0f;
 		private Vector3 _touchPosition;
 		private TouchState _touchState;
 		private SwipeDirection _swipeDirection;
@@ -50,26 +49,28 @@ namespace Running.Game
 				{
 					var swipeHorizontal = Input.mousePosition.x - _touchPosition.x;
 					var swipeVertical = Input.mousePosition.y - _touchPosition.y;
-					if (swipeHorizontal > SwipeDistance)
+					var swipeDistance = Settings.Instance.SwipeDistance;
+					if (swipeHorizontal > swipeDistance)
 					{
 						_swipeDirection = SwipeDirection.Right;
 					}
-					else if (swipeHorizontal < -SwipeDistance)
+					else if (swipeHorizontal < -swipeDistance)
 					{
 						_swipeDirection = SwipeDirection.Left;
 					}
-					else if (swipeVertical > SwipeDistance)
+					else if (swipeVertical > swipeDistance)
 					{
 						_swipeDirection = SwipeDirection.Top;
 					}
-					else if (swipeVertical < -SwipeDistance)
+					else if (swipeVertical < -swipeDistance)
 					{
 						_swipeDirection = SwipeDirection.Bottom;
 					}
 
 					if (_swipeDirection != SwipeDirection.None)
 					{
-						_touchPosition = Input.mousePosition;
+						_touchPosition = Vector3.zero;
+						_touchState = TouchState.End;
 					}
 				}
 			}
