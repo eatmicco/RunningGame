@@ -21,19 +21,40 @@ namespace Running.Game
 
 		private IEnumerator Initialize()
 		{
-			_platformManager.Initialize(OnPlatformHidden);
 			InitializePlayer();
+			InitializeCamera();
 
-			yield return LoadPlatformPools();
-			
-			// Try to arrange 5 platforms
-			_platformGeneratedList.Clear();
-			ArrangePlatforms(5, Vector3.zero);
+			yield return InitializePlatforms();
+		}
+
+		private void InitializeCamera()
+		{
+			if (MainCamera != null)
+			{
+				MainCamera.transform.position = Settings.Instance.CameraPosition;
+				MainCamera.transform.rotation = Quaternion.Euler(Settings.Instance.CameraRotation);
+			}
+			else
+			{
+				throw new Exception("No MainCamera detected.");
+			}
 		}
 
 		private void InitializePlayer()
 		{
 			_playerGameObject = Instantiate(PlayerPrefab, Settings.Instance.PlayerPosition, Quaternion.identity) as GameObject;
+			var player = _playerGameObject.GetComponent<Player>();
+			player.PlayerCollided += PlayerOnPlayerCollided;
+		}
+		private IEnumerator InitializePlatforms()
+		{
+			_platformManager.Initialize(OnPlatformHidden);
+
+			yield return LoadPlatformPools();
+
+			// Try to arrange 5 platforms
+			_platformGeneratedList.Clear();
+			ArrangePlatforms(5, Vector3.zero);
 		}
 
 		private IEnumerator LoadPlatformPools()
