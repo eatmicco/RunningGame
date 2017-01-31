@@ -2,6 +2,7 @@
 
 namespace Running.Game
 {
+	[RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
 	public class Player : MonoBehaviour
 	{
 		private readonly InputManager _inputManager = new InputManager();
@@ -10,9 +11,17 @@ namespace Running.Game
 		private int _currentLane = 1;
 		private bool _onMoving;
 		private bool _onJumping;
+		private bool _freezed;
+
+		public event System.Action<Collider> PlayerCollided;
 
 		private void Update()
 		{
+			if (_freezed)
+			{
+				return;
+			}
+
 			_inputManager.Update();
 
 			var swipeDirection = _inputManager.GetSwipeDirection();
@@ -35,6 +44,15 @@ namespace Running.Game
 			}
 		}
 
+		private void OnTriggerEnter(Collider other)
+		{
+			if (PlayerCollided != null)
+			{
+				PlayerCollided.Invoke(other);
+			}
+
+			_freezed = true;
+		}
 
 		private void SwipeHorizontal(InputManager.SwipeDirection direction)
 		{

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,6 +10,7 @@ namespace Running.Game
 		private readonly PlatformManager _platformManager = new PlatformManager();
 		private readonly List<GameObject> _platformGeneratedList = new List<GameObject>();
 
+		public Camera MainCamera;
 		public GameObject PlayerPrefab;
 		public TextAsset[] PlatformTextAssets;
 
@@ -46,6 +48,12 @@ namespace Running.Game
 			var player = _playerGameObject.GetComponent<Player>();
 			player.PlayerCollided += PlayerOnPlayerCollided;
 		}
+
+		private void PlayerOnPlayerCollided(Collider collider)
+		{
+			MovePlatforms(false);
+		}
+
 		private IEnumerator InitializePlatforms()
 		{
 			_platformManager.Initialize(OnPlatformHidden);
@@ -92,6 +100,15 @@ namespace Running.Game
 
 			var endTransform = _platformManager.GetEndTransform(_platformGeneratedList[_platformGeneratedList.Count - 1]);
 			ArrangePlatforms(1, endTransform.position, endTransform);
+		}
+
+		private void MovePlatforms(bool move)
+		{
+			foreach (var platformGameObject in _platformGeneratedList)
+			{
+				var platform = platformGameObject.GetComponent<Platform>();
+				platform.Move(move);
+			}
 		}
 	}	
 }

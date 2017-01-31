@@ -9,9 +9,16 @@ namespace Running.Game
 		public Transform EndConnectedPlatform;
 		public System.Action OnHidden;
 
+		private bool _isStopped;
+
 		private void Update()
 		{
-			transform.Translate(Vector3.back * Settings.Instance.Speed * Time.deltaTime, Space.World);
+			if (_isStopped)
+			{
+				return;
+			}
+
+			transform.Translate(Vector3.back * Settings.Instance.PlatformSpeed * Time.deltaTime, Space.World);
 
 			if (End.position.z < Settings.Instance.HideDepth)
 			{
@@ -29,6 +36,11 @@ namespace Running.Game
 					transform.Translate(diff, Space.World);
 				}
 			}
+		}
+
+		public void Move(bool move)
+		{
+			_isStopped = !move;
 		}
 	}
 }
