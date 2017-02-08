@@ -33,7 +33,7 @@ namespace Running.Editor
 					{
 						z = (i - floor) * Settings.Instance.LaneWidth;
 					}
-					_target.transform.position = new Vector3(_target.transform.position.x, _target.transform.position.y, z);
+					_target.transform.localPosition = new Vector3(_target.transform.localPosition.x, _target.transform.localPosition.y, z);
 				}
 			}
 			GUILayout.EndHorizontal();
