@@ -23,6 +23,10 @@ namespace Running.Game
 		{
 			get 
 			{
+				if (_instance == null)
+				{
+					_instance = FindObjectOfType<Settings>();
+				}
 				return _instance;
 			}
 		}
