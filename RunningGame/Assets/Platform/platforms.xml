@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Platforms>
+  <Platform Name="PlatformDesign02" Prefab="PlatformSample" Rotation="0, 90, 0" Start="0, 0, 0" End="-10, 0, 0">
+    <Element Name="Cube" Position="-9, 0, 0" Rotation="0, 0, 0" Type="Obstacle" />
+    <Element Name="Cube" Position="-8, 0, 0" Rotation="0, 0, 0" Type="Obstacle" />
+    <Element Name="Cube" Position="-3.97, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
+  </Platform>
   <Platform Name="PlatformDesign01" Prefab="PlatformSample" Rotation="0, 90, 0" Start="0, 0, 0" End="-10, 0, 0">
     <Element Name="Cube" Position="-8.1, 0, -1.5" Rotation="0, 0, 0" Type="Obstacle" />
     <Element Name="Cube" Position="-5.82, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
