@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Running.Game
@@ -149,6 +150,13 @@ namespace Running.Game
 			}
 
 			return null;
+		}
+
+		public GameObject GetRandomPlatform()
+		{
+			var random = Random.Range(0, _platformPools.Keys.Count);
+			var keyName = _platformPools.Keys.ElementAt(random);
+			return GetPlatform(keyName);
 		}
 
 		public void ConnectPlatformToPoint(GameObject platformGameObject, Vector3 point)

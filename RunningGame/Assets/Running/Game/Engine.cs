@@ -79,7 +79,7 @@ namespace Running.Game
 		{
 			for (int i = 0; i < count; ++i)
 			{
-				var gameObject = _platformManager.GetPlatform("PlatformDesign01");
+				var gameObject = _platformManager.GetRandomPlatform();
 				gameObject.transform.parent = transform;
 				var platform = gameObject.GetComponent<Platform>();
 				platform.EndConnectedPlatform = endTransform;
