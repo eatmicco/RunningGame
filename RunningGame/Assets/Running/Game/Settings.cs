@@ -8,11 +8,12 @@ namespace Running.Game
 		public int MaxPoolCount = 10;
 		public float LaneWidth;
 		public float PlatformSpeed;
-		public float HideDepth = -5;
-		public float SwipeDistance = 50;
+		public float HideDepth = -5f;
+		public float SwipeDistance = 50f;
 		public float PlayerSpeed = 0.1f;
-		public float JumpingVelocity = 10;
-		public float Gravity = 1;
+		public float JumpingVelocity = 10f;
+		public float Gravity = 1f;
+		public float SlidingTime = 1f;
 		public Vector3 CameraPosition;
 		public Vector3 CameraRotation;
 		public Vector3 PlayerPosition;

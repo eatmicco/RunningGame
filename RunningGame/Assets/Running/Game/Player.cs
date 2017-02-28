@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Running.Game
 {
-	// TODO : Add player sliding
 	// TODO : Add scoring system
 	// TODO : Add basic gui (replacable)
 	[RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
@@ -12,6 +12,7 @@ namespace Running.Game
 		{
 			Jumping,
 			Falling,
+			Sliding,
 			None
 		}
 
@@ -29,9 +30,16 @@ namespace Running.Game
 		private VerticalState _verticalState;
 		private bool _freezed;
 		private OnTopOf _onTopOf;
+		private float _currentSlidingTime;
 
 		public event System.Action<Collider> PlayerCollided;
 		public Transform BottomRaySource;
+		public Animator PlayerAnimator;
+
+		public void Freeze()
+		{
+			_freezed = true;
+		}
 
 		private void Update()
 		{
@@ -70,8 +78,6 @@ namespace Running.Game
 			{
 				PlayerCollided.Invoke(other);
 			}
-
-			_freezed = true;
 		}
 
 		private void SwipeHorizontal(InputManager.SwipeDirection direction)
@@ -105,7 +111,9 @@ namespace Running.Game
 					_currentVelocity = Settings.Instance.JumpingVelocity;
 					break;
 				case InputManager.SwipeDirection.Bottom:
-					Debug.Log("Player Slides!");
+					_verticalState = VerticalState.Sliding;
+					_currentSlidingTime = 0;
+					StartCoroutine(SlidePlayer(true));
 					break;
 			}
 		}
@@ -130,24 +138,37 @@ namespace Running.Game
 
 		private void VerticalMovement()
 		{
-			var speed = _currentVelocity * Time.deltaTime;
-			var threshold = Settings.Instance.JumpingVelocity * Time.deltaTime;
-			if (transform.position.y >= _destination.y - threshold && transform.position.y <= _destination.y + threshold && _currentVelocity < 0)
+			if (_verticalState != VerticalState.Sliding)
 			{
-				var pos = transform.position;
-				pos.y = _destination.y;
-				transform.position = pos;
-				_verticalState = VerticalState.None;
+				var speed = _currentVelocity*Time.deltaTime;
+				var threshold = Settings.Instance.JumpingVelocity*Time.deltaTime;
+				if (transform.position.y >= _destination.y - threshold && transform.position.y <= _destination.y + threshold &&
+				    _currentVelocity < 0)
+				{
+					var pos = transform.position;
+					pos.y = _destination.y;
+					transform.position = pos;
+					_verticalState = VerticalState.None;
+				}
+				else
+				{
+					if (speed < 0)
+					{
+						_verticalState = VerticalState.Falling;
+					}
+					transform.Translate(Vector3.up*speed, Space.World);
+				}
+				_currentVelocity -= Settings.Instance.Gravity;
 			}
 			else
 			{
-				if (speed < 0)
+				_currentSlidingTime += Time.deltaTime;
+				if (_currentSlidingTime >= Settings.Instance.SlidingTime)
 				{
-					_verticalState = VerticalState.Falling;
+					_verticalState = VerticalState.None;
+					StartCoroutine(SlidePlayer(false));
 				}
-				transform.Translate(Vector3.up * speed, Space.World);
 			}
-			_currentVelocity -= Settings.Instance.Gravity;
 		}
 
 		private void RayBottom()
@@ -180,6 +201,13 @@ namespace Running.Game
 					return;
 				}
 			}
+		}
+
+		private IEnumerator SlidePlayer(bool slide)
+		{
+			PlayerAnimator.SetTrigger(slide ? "Slide" : "BackUp");
+
+			yield return null;
 		}
 	}
 }

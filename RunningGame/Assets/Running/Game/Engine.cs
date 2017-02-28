@@ -14,7 +14,7 @@ namespace Running.Game
 		public GameObject PlayerPrefab;
 		public TextAsset[] PlatformTextAssets;
 
-		private GameObject _playerGameObject;
+		private Player _player;
 
 		private void Start()
 		{
@@ -44,14 +44,19 @@ namespace Running.Game
 
 		private void InitializePlayer()
 		{
-			_playerGameObject = Instantiate(PlayerPrefab, Settings.Instance.PlayerPosition, Quaternion.identity) as GameObject;
-			var player = _playerGameObject.GetComponent<Player>();
-			player.PlayerCollided += PlayerOnPlayerCollided;
+			var playerGameObject = Instantiate(PlayerPrefab, Settings.Instance.PlayerPosition, Quaternion.identity) as GameObject;
+			_player = playerGameObject.GetComponent<Player>();
+			_player.PlayerCollided += PlayerOnPlayerCollided;
 		}
 
 		private void PlayerOnPlayerCollided(Collider collider)
 		{
-			MovePlatforms(false);
+			var element = collider.gameObject.GetComponent<Element>();
+			if (element != null && element.ElementType == ElementType.Obstacle)
+			{
+				MovePlatforms(false);
+				_player.Freeze();
+			}
 		}
 
 		private IEnumerator InitializePlatforms()
