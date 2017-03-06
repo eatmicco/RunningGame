@@ -5,20 +5,42 @@ using System.Collections.Generic;
 
 namespace Running.Game
 {
+	// TODO : Add scoring system
+	// TODO : Add basic gui (replacable)
 	public class Engine : MonoBehaviour
 	{
 		private readonly PlatformManager _platformManager = new PlatformManager();
 		private readonly List<GameObject> _platformGeneratedList = new List<GameObject>();
 
+		public Action<Engine> EngineLateUpdateFinished;
 		public Camera MainCamera;
 		public GameObject PlayerPrefab;
 		public TextAsset[] PlatformTextAssets;
 
 		private Player _player;
+		private int _score;
+		private bool _freeze;
+
+		public int Score
+		{
+			get { return _score; }
+		}
 
 		private void Start()
 		{
 			StartCoroutine(Initialize());
+		}
+
+		private void LateUpdate()
+		{
+			if (_freeze) return;
+
+			_score += (int)(Settings.Instance.ScoreMultiplier * Time.deltaTime);
+			
+			if (EngineLateUpdateFinished != null)
+			{
+				EngineLateUpdateFinished.Invoke(this);
+			}
 		}
 
 		private IEnumerator Initialize()
@@ -27,6 +49,8 @@ namespace Running.Game
 			InitializeCamera();
 
 			yield return InitializePlatforms();
+
+			InitializeVariables();
 		}
 
 		private void InitializeCamera()
@@ -46,17 +70,19 @@ namespace Running.Game
 		{
 			var playerGameObject = Instantiate(PlayerPrefab, Settings.Instance.PlayerPosition, Quaternion.identity) as GameObject;
 			_player = playerGameObject.GetComponent<Player>();
-			_player.PlayerCollided += PlayerOnPlayerCollided;
+			_player.PlayerCollided += HandleOnPlayerCollided;
 		}
 
-		private void PlayerOnPlayerCollided(Collider collider)
+		private void InitializeVariables()
 		{
-			var element = collider.gameObject.GetComponent<Element>();
-			if (element != null && element.ElementType == ElementType.Obstacle)
-			{
-				MovePlatforms(false);
-				_player.Freeze();
-			}
+			_score = 0;
+		}
+
+		private void HandleOnPlayerCollided()
+		{
+			MovePlatforms(false);
+
+			_freeze = true;
 		}
 
 		private IEnumerator InitializePlatforms()

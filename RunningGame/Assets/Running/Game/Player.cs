@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace Running.Game
 {
-	// TODO : Add scoring system
-	// TODO : Add basic gui (replacable)
 	[RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
 	public class Player : MonoBehaviour
 	{
@@ -32,13 +30,14 @@ namespace Running.Game
 		private OnTopOf _onTopOf;
 		private float _currentSlidingTime;
 
-		public event System.Action<Collider> PlayerCollided;
+		public event System.Action PlayerCollided;
 		public Transform BottomRaySource;
 		public Animator PlayerAnimator;
 
-		public void Freeze()
+		private void Freeze()
 		{
 			_freezed = true;
+			PlayerAnimator.Stop();
 		}
 
 		private void Update()
@@ -74,9 +73,14 @@ namespace Running.Game
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if (PlayerCollided != null)
+			var element = other.gameObject.GetComponent<Element>();
+			if (element != null && element.ElementType == ElementType.Obstacle)
 			{
-				PlayerCollided.Invoke(other);
+				if (PlayerCollided != null)
+				{
+					PlayerCollided.Invoke();
+				}
+				Freeze();
 			}
 		}
 
@@ -180,7 +184,7 @@ namespace Running.Game
 				var platform = hit.transform.gameObject.GetComponentInChildren<Platform>();
 				if (platform != null)
 				{
-					if (_onTopOf == OnTopOf.Obstacle && _verticalState == VerticalState.None)
+					if (_verticalState == VerticalState.None && transform.position.y > 0)
 					{
 						_verticalState = VerticalState.Falling;
 						_currentVelocity = 0;

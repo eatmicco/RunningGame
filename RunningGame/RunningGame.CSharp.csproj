@@ -67,6 +67,7 @@
     <Compile Include="Assets\Running\Game\Asset.cs" />
     <Compile Include="Assets\Running\Game\Element.cs" />
     <Compile Include="Assets\Running\Game\Engine.cs" />
+    <Compile Include="Assets\Running\Game\GuiManager.cs" />
     <Compile Include="Assets\Running\Game\InputManager.cs" />
     <Compile Include="Assets\Running\Game\Platform.cs" />
     <Compile Include="Assets\Running\Game\PlatformManager.cs" />

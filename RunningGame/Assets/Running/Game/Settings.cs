@@ -14,6 +14,7 @@ namespace Running.Game
 		public float JumpingVelocity = 10f;
 		public float Gravity = 1f;
 		public float SlidingTime = 1f;
+		public float ScoreMultiplier = 10f;
 		public Vector3 CameraPosition;
 		public Vector3 CameraRotation;
 		public Vector3 PlayerPosition;
