@@ -75,6 +75,7 @@
     <Compile Include="Assets\Running\Game\Settings.cs" />
     <Compile Include="Assets\Running\GlobalSettings.cs" />
     <Compile Include="Assets\Running\Menu\ChildMenuController.cs" />
+    <Compile Include="Assets\Running\Menu\EndGameMenuController.cs" />
     <Compile Include="Assets\Running\Menu\MainMenuController.cs" />
     <Compile Include="Assets\Running\Menu\MenuController.cs" />
   </ItemGroup>
