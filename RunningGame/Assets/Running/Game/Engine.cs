@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace Running.Game
 {
@@ -83,6 +84,10 @@ namespace Running.Game
 			MovePlatforms(false);
 
 			_freeze = true;
+
+			GlobalSettings.Instance.MenuIndex = 1;
+			GlobalSettings.Instance.CurrentScore = _score;
+			SceneManager.LoadScene("MenuScene");
 		}
 
 		private IEnumerator InitializePlatforms()
