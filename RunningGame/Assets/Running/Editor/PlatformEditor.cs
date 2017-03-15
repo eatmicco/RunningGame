@@ -10,7 +10,7 @@ namespace Running.Editor
 		[MenuItem("Running/Save Platform")]
 		public static void SavePlatform()
 		{
-			XDocument xDoc = new XDocument(new XElement("Platforms"));
+			XDocument xDoc = new XDocument(new XElement(CommonName.PlatformsXElementName));
 			var root = xDoc.Root;
 			var platforms = GameObject.FindObjectsOfType<Platform>();
 			if (platforms != null)
@@ -19,24 +19,26 @@ namespace Running.Editor
 				{
 					var prefabParent = PrefabUtility.GetPrefabParent(platform.gameObject);
 					var transform = platform.transform;
-					var xElement = new XElement("Platform");
-					xElement.SetAttributeValue("Name", transform.name);
-					xElement.SetAttributeValue("Prefab", prefabParent.name);
-					xElement.SetAttributeValue("Rotation", transform.localRotation.ToFormattedString());
-					xElement.SetAttributeValue("Start", platform.Start.transform.localPosition.ToFormattedString());
-					xElement.SetAttributeValue("End", platform.End.transform.localPosition.ToFormattedString());
+					var xElement = new XElement(CommonName.PlatformXElementName);
+					xElement.SetAttributeValue(CommonName.NameAttributeName, transform.name);
+					xElement.SetAttributeValue(CommonName.PrefabAttributeName, prefabParent.name);
+					xElement.SetAttributeValue(CommonName.RotationAttributeName, transform.localRotation.ToFormattedString());
+					xElement.SetAttributeValue(CommonName.StartAttributeName, platform.Start.transform.localPosition.ToFormattedString());
+					xElement.SetAttributeValue(CommonName.EndAttributeName, platform.End.transform.localPosition.ToFormattedString());
 
 					if (transform.childCount > 0)
 					{
-						var elementsTransform = transform.FindChild("Elements");
+						var elementsTransform = transform.FindChild(CommonName.ElementsGameObjectName);
 						var elements = elementsTransform.gameObject.GetComponentsInChildren<Element>();
 						foreach (var element in elements)
 						{
-							var childXElement = new XElement("Element");
-							childXElement.SetAttributeValue("Name", element.name);
-							childXElement.SetAttributeValue("Position", element.transform.localPosition.ToFormattedString());
-							childXElement.SetAttributeValue("Rotation", element.transform.localRotation.ToFormattedString());
-							childXElement.SetAttributeValue("Type", element.ElementType);
+							var elementPrefab = PrefabUtility.GetPrefabParent(element.gameObject);
+							var childXElement = new XElement(CommonName.ElementXElementName);
+							childXElement.SetAttributeValue(CommonName.NameAttributeName, element.name);
+							childXElement.SetAttributeValue(CommonName.PrefabAttributeName, elementPrefab.name);
+							childXElement.SetAttributeValue(CommonName.PositionAttributeName, element.transform.localPosition.ToFormattedString());
+							childXElement.SetAttributeValue(CommonName.RotationAttributeName, element.transform.localRotation.ToFormattedString());
+							childXElement.SetAttributeValue(CommonName.TypeAttributeName, element.ElementType);
 
 							xElement.Add(childXElement);
 						}

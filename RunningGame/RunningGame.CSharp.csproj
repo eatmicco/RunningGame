@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Running\CommonConstant.cs" />
     <Compile Include="Assets\Running\CommonExtension.cs" />
     <Compile Include="Assets\Running\Game\Asset.cs" />
     <Compile Include="Assets\Running\Game\Element.cs" />

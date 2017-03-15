@@ -20,7 +20,7 @@ namespace Running.Game
 
 		public void Initialize(System.Action onPlatformHidden)
 		{
-			_poolGameObject = new GameObject("Pools");
+			_poolGameObject = new GameObject(CommonName.PlatformPoolsGameObjectName);
 			_onPlatformHidden = onPlatformHidden;
 		}
 
@@ -29,29 +29,29 @@ namespace Running.Game
 			XDocument xDoc = XDocument.Parse(xmlString);
 			var root = xDoc.Root;
 
-			var platformElements = root.DescendantsAndSelf("Platform");
+			var platformElements = root.DescendantsAndSelf(CommonName.PlatformXElementName);
 			foreach (var platformElement in platformElements)
 			{
-				var name = platformElement.Attribute("Name").Value;
-				var prefab = platformElement.Attribute("Prefab").Value;
+				var name = platformElement.Attribute(CommonName.NameAttributeName).Value;
+				var prefab = platformElement.Attribute(CommonName.PrefabAttributeName).Value;
 				var gameObject = GameObject.Instantiate(Asset.Instance.GetPrefabByName(prefab));
 				gameObject.name = name;
 				gameObject.transform.parent = _poolGameObject.transform;
 				var platform = gameObject.GetComponent<Platform>();
 				platform.OnHidden = _onPlatformHidden;
 
-				var hasStart = platformElement.Attribute("Start") != null;
-				var hasEnd = platformElement.Attribute("End") != null;
+				var hasStart = platformElement.Attribute(CommonName.StartAttributeName) != null;
+				var hasEnd = platformElement.Attribute(CommonName.EndAttributeName) != null;
 
 				if (hasStart || hasEnd)
 				{
-					var pointsGameObject = new GameObject("Points");
+					var pointsGameObject = new GameObject(CommonName.PointsGameObjectName);
 					pointsGameObject.transform.parent = gameObject.transform;
 
 					if (hasStart)
 					{
-						var start = platformElement.Attribute("Start").Value.ToVector3();
-						var startGameObject = new GameObject("Start");
+						var start = platformElement.Attribute(CommonName.StartAttributeName).Value.ToVector3();
+						var startGameObject = new GameObject(CommonName.StartAttributeName);
 						startGameObject.transform.parent = pointsGameObject.transform;
 						startGameObject.transform.localPosition = start;
 						platform.Start = startGameObject.transform;
@@ -59,8 +59,8 @@ namespace Running.Game
 
 					if (hasEnd)
 					{
-						var end = platformElement.Attribute("End").Value.ToVector3();
-						var endGameObject = new GameObject("End");
+						var end = platformElement.Attribute(CommonName.EndAttributeName).Value.ToVector3();
+						var endGameObject = new GameObject(CommonName.EndAttributeName);
 						endGameObject.transform.parent = pointsGameObject.transform;
 						endGameObject.transform.localPosition = end;
 						platform.End = endGameObject.transform;
@@ -69,19 +69,20 @@ namespace Running.Game
 				
 				if (platformElement.HasElements)
 				{
-					var childElements = platformElement.Elements("Element");
+					var childElements = platformElement.Elements(CommonName.ElementXElementName);
 					if (childElements != null)
 					{
-						var elementsGameObject = new GameObject("Elements");
+						var elementsGameObject = new GameObject(CommonName.ElementsGameObjectName);
 						elementsGameObject.transform.parent = gameObject.transform;
 
 						foreach (var childElement in childElements)
 						{
-							var childName = childElement.Attribute("Name").Value;
-							var childPosition = childElement.Attribute("Position").Value.ToVector3();
-							var childRotation = childElement.Attribute("Rotation").Value.ToQuaternion();
+							var childName = childElement.Attribute(CommonName.NameAttributeName).Value;
+							var childPrefabName = childElement.Attribute(CommonName.PrefabAttributeName).Value;
+							var childPosition = childElement.Attribute(CommonName.PositionAttributeName).Value.ToVector3();
+							var childRotation = childElement.Attribute(CommonName.RotationAttributeName).Value.ToQuaternion();
 
-							var childGameObject = GameObject.Instantiate(Asset.Instance.GetPrefabByName(childName));
+							var childGameObject = GameObject.Instantiate(Asset.Instance.GetPrefabByName(childPrefabName));
 							childGameObject.name = childName;
 							childGameObject.transform.parent = elementsGameObject.transform;
 							childGameObject.transform.localPosition = childPosition;
@@ -90,7 +91,7 @@ namespace Running.Game
 					}
 				}
 
-				var rotation = platformElement.Attribute("Rotation").Value.ToQuaternion();
+				var rotation = platformElement.Attribute(CommonName.RotationAttributeName).Value.ToQuaternion();
 				gameObject.transform.rotation = rotation;
 
 				GeneratePool(gameObject);
