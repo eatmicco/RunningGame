@@ -50,5 +50,44 @@ namespace Running.Editor
 				xDoc.Save("platforms.xml");
 			}
 		}
+
+		[MenuItem("Running/Save Scenery")]
+		public static void SaveScenery()
+		{
+			XDocument xDoc = new XDocument(new XElement(CommonName.SceneriesXElementName));
+			var root = xDoc.Root;
+			var sceneries = GameObject.FindGameObjectsWithTag(CommonName.SceneryXElementName);
+			if (sceneries != null)
+			{
+				foreach (var scenery in sceneries)
+				{
+					var transform = scenery.transform;
+					var xElement = new XElement(CommonName.SceneryXElementName);
+					xElement.SetAttributeValue(CommonName.NameAttributeName, transform.name);
+					xElement.SetAttributeValue(CommonName.RotationAttributeName, transform.localRotation.ToFormattedString());
+
+					if (transform.childCount > 0)
+					{
+						var elements = transform.gameObject.GetComponentsInChildren<Element>();
+						foreach (var element in elements)
+						{
+							var elementPrefab = PrefabUtility.GetPrefabParent(element.gameObject);
+							var childXElement = new XElement(CommonName.ElementXElementName);
+							childXElement.SetAttributeValue(CommonName.NameAttributeName, element.name);
+							childXElement.SetAttributeValue(CommonName.PrefabAttributeName, elementPrefab.name);
+							childXElement.SetAttributeValue(CommonName.PositionAttributeName, element.transform.localPosition.ToFormattedString());
+							childXElement.SetAttributeValue(CommonName.RotationAttributeName, element.transform.localRotation.ToFormattedString());
+							childXElement.SetAttributeValue(CommonName.TypeAttributeName, element.ElementType);
+
+							xElement.Add(childXElement);
+						}
+					}
+
+					root.Add(xElement);
+				}
+
+				xDoc.Save("sceneries.xml");
+			}
+		}
 	}	
 }

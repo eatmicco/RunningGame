@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Sceneries>
+  <Scenery Name="SceneryDesign01" Rotation="0, 0, 0">
+    <Element Name="Cylinder" Prefab="Cylinder" Position="3.31, 1, 5.04" Rotation="0, 0, 0" Type="SceneryItem" />
+    <Element Name="Cylinder (1)" Prefab="Cylinder" Position="3.94, 0.66, 5.929" Rotation="0, 0, 0" Type="SceneryItem" />
+    <Element Name="Cylinder (2)" Prefab="Cylinder" Position="3.417565, 0.66, 1.474665" Rotation="0, 148.908, 0" Type="SceneryItem" />
+    <Element Name="Cylinder (3)" Prefab="Cylinder" Position="3.497453, 1, 2.562147" Rotation="0, 148.908, 0" Type="SceneryItem" />
+    <Element Name="Cylinder (4)" Prefab="Cylinder" Position="-3.449181, 1, 4.748277" Rotation="0, 329.4752, 0" Type="SceneryItem" />
+    <Element Name="Cylinder (5)" Prefab="Cylinder" Position="-3.358418, 0.66, 5.834912" Rotation="0, 329.4752, 0" Type="SceneryItem" />
+    <Element Name="Cylinder (6)" Prefab="Cylinder" Position="-3.922485, 0.66, 1.385943" Rotation="0, 180.5671, 0" Type="SceneryItem" />
+    <Element Name="Cylinder (7)" Prefab="Cylinder" Position="-3.283717, 1, 2.268663" Rotation="0, 180.5671, 0" Type="SceneryItem" />
+  </Scenery>
+</Sceneries>
