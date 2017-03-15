@@ -12,11 +12,14 @@ namespace Running.Game
 	{
 		private readonly PlatformManager _platformManager = new PlatformManager();
 		private readonly List<GameObject> _platformGeneratedList = new List<GameObject>();
+		private readonly List<GameObject> _sceneryGeneratedList = new List<GameObject>();
+		private readonly SceneryManager _sceneryManager = new SceneryManager();
 
 		public Action<Engine> EngineLateUpdateFinished;
 		public Camera MainCamera;
 		public GameObject PlayerPrefab;
 		public TextAsset[] PlatformTextAssets;
+		public TextAsset[] SceneryTextAssets;
 
 		private Player _player;
 		private int _score;
@@ -93,8 +96,10 @@ namespace Running.Game
 		private IEnumerator InitializePlatforms()
 		{
 			_platformManager.Initialize(OnPlatformHidden);
+			_sceneryManager.Initialize();
 
 			yield return LoadPlatformPools();
+			yield return LoadSceneryPools();
 
 			// Try to arrange 5 platforms
 			_platformGeneratedList.Clear();
@@ -111,12 +116,29 @@ namespace Running.Game
 			}
 		}
 
+		private IEnumerator LoadSceneryPools()
+		{
+			foreach (var textAsset in SceneryTextAssets)
+			{
+				_sceneryManager.Load(textAsset.text);
+
+				yield return null;
+			}
+		}
+
 		private void ArrangePlatforms(int count, Vector3 endPosition, Transform endTransform = null)
 		{
 			for (int i = 0; i < count; ++i)
 			{
 				var gameObject = _platformManager.GetRandomPlatform();
 				gameObject.transform.parent = transform;
+
+				var sceneryGameObject = _sceneryManager.GetRandomScenery();
+				sceneryGameObject.transform.parent = gameObject.transform;
+				sceneryGameObject.transform.localPosition = Vector3.zero;
+				sceneryGameObject.SetActive(true);
+				_sceneryGeneratedList.Add(sceneryGameObject);
+
 				var platform = gameObject.GetComponent<Platform>();
 				platform.EndConnectedPlatform = endTransform;
 				_platformManager.ConnectPlatformToPoint(gameObject, endPosition);
@@ -131,7 +153,11 @@ namespace Running.Game
 		{
 			var platform = _platformGeneratedList[1].GetComponent<Platform>();
 			platform.EndConnectedPlatform = null;
-			_platformGeneratedList[0].SetActive(false);
+
+			_sceneryManager.ReattachToPool(_sceneryGeneratedList[0]);
+			_sceneryGeneratedList.RemoveAt(0);
+
+			_platformManager.ReattachToPool(_platformGeneratedList[0]);
 			_platformGeneratedList.RemoveAt(0);
 
 			var endTransform = _platformManager.GetEndTransform(_platformGeneratedList[_platformGeneratedList.Count - 1]);
