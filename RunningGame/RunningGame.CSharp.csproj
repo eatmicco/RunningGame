@@ -65,6 +65,7 @@
     <Compile Include="Assets\Running\CommonConstant.cs" />
     <Compile Include="Assets\Running\CommonExtension.cs" />
     <Compile Include="Assets\Running\Game\Asset.cs" />
+    <Compile Include="Assets\Running\Game\EditorGizmo.cs" />
     <Compile Include="Assets\Running\Game\Element.cs" />
     <Compile Include="Assets\Running\Game\Engine.cs" />
     <Compile Include="Assets\Running\Game\GuiManager.cs" />
