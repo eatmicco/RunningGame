@@ -160,6 +160,13 @@ namespace Running.Game
 			return GetPlatform(keyName);
 		}
 
+		public void ReattachToPool(GameObject platformGameObject)
+		{
+			platformGameObject.transform.parent = _poolGameObject.transform;
+			platformGameObject.transform.localPosition = Vector3.zero;
+			platformGameObject.SetActive(false);
+		}
+
 		public void ConnectPlatformToPoint(GameObject platformGameObject, Vector3 point)
 		{
 			var startPosition = GetStartTransform(platformGameObject).position;
