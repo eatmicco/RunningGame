@@ -6,7 +6,8 @@ namespace Running.Game
 	public enum ElementType
 	{
 		Obstacle,
-		Scenery
+		Collectible,
+		SceneryItem
 	}
 
 	public class Element : MonoBehaviour
