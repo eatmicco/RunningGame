@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Platform\platforms.xml" />
+    <None Include="Assets\Platform\sceneries.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
