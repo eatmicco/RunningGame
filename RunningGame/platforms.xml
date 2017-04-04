@@ -4,14 +4,18 @@
     <Element Name="Cube" Prefab="Cube" Position="-9, 0, 0" Rotation="0, 0, 0" Type="Obstacle" />
     <Element Name="Cube" Prefab="Cube" Position="-8, 0, 0" Rotation="0, 0, 0" Type="Obstacle" />
     <Element Name="Cube" Prefab="Cube" Position="-3.97, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
+    <Element Name="Coin" Prefab="Coin" Position="-3.19, 1.15, -1.5" Rotation="0, 90, 0" Type="Collectible" />
+    <Element Name="Coin" Prefab="Coin" Position="-8.39, 2.37, 0" Rotation="0, 90, 0" Type="Collectible" />
   </Platform>
   <Platform Name="PlatformDesign03" Prefab="PlatformSample" Rotation="0, 90, 0" Start="0, 0, 0" End="-10, 0, 0">
     <Element Name="Cube" Prefab="Cube" Position="-6.13, 0.8, 0" Rotation="0, 0, 0" Type="Obstacle" />
     <Element Name="Cube" Prefab="Cube" Position="-3.97, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
+    <Element Name="Coin" Prefab="Coin" Position="-8.38, 1.1, 0" Rotation="0, 90, 0" Type="Collectible" />
   </Platform>
   <Platform Name="PlatformDesign01" Prefab="PlatformSample" Rotation="0, 90, 0" Start="0, 0, 0" End="-10, 0, 0">
     <Element Name="Cube" Prefab="Cube" Position="-8.1, 0, -1.5" Rotation="0, 0, 0" Type="Obstacle" />
     <Element Name="Cube" Prefab="Cube" Position="-5.82, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
     <Element Name="Cube" Prefab="Cube" Position="-3.97, 0, 1.5" Rotation="0, 0, 0" Type="Obstacle" />
+    <Element Name="Coin" Prefab="Coin" Position="-4.39, 1.19, 0" Rotation="0, 90, 0" Type="Collectible" />
   </Platform>
 </Platforms>
