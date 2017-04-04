@@ -95,8 +95,20 @@ namespace Running.Game
 
 			_freeze = true;
 
+			var screenshot = MainCamera.gameObject.GetComponent<ScreenShot>();
+			screenshot.Grab = true;
+
+			StartCoroutine(EndGame());
+		}
+
+		private IEnumerator EndGame()
+		{
 			GlobalSettings.Instance.MenuIndex = 1;
 			GlobalSettings.Instance.CurrentScore = _score;
+			GlobalSettings.Instance.CurrentCoin = _coin;
+
+			yield return new WaitForEndOfFrame();
+
 			SceneManager.LoadScene("MenuScene");
 		}
 
