@@ -74,6 +74,7 @@
     <Compile Include="Assets\Running\Game\PlatformManager.cs" />
     <Compile Include="Assets\Running\Game\Player.cs" />
     <Compile Include="Assets\Running\Game\SceneryManager.cs" />
+    <Compile Include="Assets\Running\Game\ScreenShot.cs" />
     <Compile Include="Assets\Running\Game\Settings.cs" />
     <Compile Include="Assets\Running\GlobalSettings.cs" />
     <Compile Include="Assets\Running\Menu\ChildMenuController.cs" />
