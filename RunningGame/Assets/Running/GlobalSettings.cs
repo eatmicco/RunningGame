@@ -8,6 +8,7 @@ namespace Running
 	{
 		public int MenuIndex;
 		public int CurrentScore;
+		public int CurrentCoin;
 
 		private static GlobalSettings _instance;
 

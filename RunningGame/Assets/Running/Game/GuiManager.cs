@@ -9,6 +9,7 @@ namespace Running.Game
 	{
 		public Engine Engine;
 		public Text ScoreText;
+		public Text CoinText;
 
 		private void Awake()
 		{
@@ -26,6 +27,7 @@ namespace Running.Game
 		private void HandleOnEngineLateUpdateFinished(Engine engine)
 		{
 			ScoreText.text = engine.Score.ToString();
+			CoinText.text = engine.Coin.ToString();
 		}
 	}	
 }

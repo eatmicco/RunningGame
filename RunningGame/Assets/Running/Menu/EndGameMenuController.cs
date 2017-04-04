@@ -10,6 +10,7 @@ namespace Runnning.Menu
 	{
 		public Button HomeButton;
 		public Text ScoreText;
+		public Text CoinText;
 
 		private void Awake()
 		{
@@ -22,6 +23,12 @@ namespace Runnning.Menu
 			{
 				ScoreText.text = GlobalSettings.Instance.CurrentScore.ToString();
 			}
+
+			if (CoinText != null)
+			{
+				CoinText.text = GlobalSettings.Instance.CurrentCoin.ToString();
+			}
+		}
 		}
 
 		private void HandleHomeButtonClicked()

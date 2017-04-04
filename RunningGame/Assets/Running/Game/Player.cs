@@ -31,6 +31,7 @@ namespace Running.Game
 		private float _currentSlidingTime;
 
 		public event System.Action PlayerCollided;
+		public event System.Action<GameObject> CollectibleCollected;
 		public Transform BottomRaySource;
 		public Animator PlayerAnimator;
 
@@ -74,13 +75,28 @@ namespace Running.Game
 		private void OnTriggerEnter(Collider other)
 		{
 			var element = other.gameObject.GetComponent<Element>();
-			if (element != null && element.ElementType == ElementType.Obstacle)
+			if (element != null) 
 			{
-				if (PlayerCollided != null)
+				switch (element.ElementType)
 				{
-					PlayerCollided.Invoke();
+					case ElementType.Obstacle:
+					{
+						if (PlayerCollided != null)
+						{
+							PlayerCollided.Invoke();
+						}
+						Freeze();
+					}
+						break;
+					case ElementType.Collectible:
+					{
+						if (CollectibleCollected != null)
+						{
+							CollectibleCollected.Invoke(other.gameObject);
+						}
+					}
+						break;
 				}
-				Freeze();
 			}
 		}
 
