@@ -23,11 +23,17 @@ namespace Running.Game
 
 		private Player _player;
 		private int _score;
+		private int _coin;
 		private bool _freeze;
 
 		public int Score
 		{
 			get { return _score; }
+		}
+
+		public int Coin
+		{
+			get { return _coin; }
 		}
 
 		private void Start()
@@ -75,6 +81,7 @@ namespace Running.Game
 			var playerGameObject = Instantiate(PlayerPrefab, Settings.Instance.PlayerPosition, Quaternion.identity) as GameObject;
 			_player = playerGameObject.GetComponent<Player>();
 			_player.PlayerCollided += HandleOnPlayerCollided;
+			_player.CollectibleCollected += HandleOnCollectibleCollected;
 		}
 
 		private void InitializeVariables()
@@ -91,6 +98,14 @@ namespace Running.Game
 			GlobalSettings.Instance.MenuIndex = 1;
 			GlobalSettings.Instance.CurrentScore = _score;
 			SceneManager.LoadScene("MenuScene");
+		}
+
+		private void HandleOnCollectibleCollected(GameObject gameObject)
+		{
+			// For now, just deactivate the gameobject
+			gameObject.SetActive(false);
+
+			_coin++;
 		}
 
 		private IEnumerator InitializePlatforms()
