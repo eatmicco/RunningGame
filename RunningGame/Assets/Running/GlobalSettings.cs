@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 namespace Running
@@ -9,6 +8,7 @@ namespace Running
 		public int MenuIndex;
 		public int CurrentScore;
 		public int CurrentCoin;
+		public Texture2D ScreenshotTexture;
 
 		private static GlobalSettings _instance;
 

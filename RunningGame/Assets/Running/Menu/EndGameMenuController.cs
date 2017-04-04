@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Running;
 using Running.Menu;
 using UnityEngine.UI;
@@ -8,6 +7,7 @@ namespace Runnning.Menu
 {
 	public class EndGameMenuController : ChildMenuController
 	{
+		public Image BackgroundImage;
 		public Button HomeButton;
 		public Text ScoreText;
 		public Text CoinText;
@@ -29,6 +29,11 @@ namespace Runnning.Menu
 				CoinText.text = GlobalSettings.Instance.CurrentCoin.ToString();
 			}
 		}
+
+		private void Start()
+		{
+			BackgroundImage.material = new Material(Shader.Find("Unlit/Texture"));
+			BackgroundImage.material.mainTexture = GlobalSettings.Instance.ScreenshotTexture;
 		}
 
 		private void HandleHomeButtonClicked()
